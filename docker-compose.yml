@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+    db:
+        image: postgres
+        restart: always
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - POSTGRES_DB=postgres
+        ports:
+          - '5432:5432'
+        volumes: 
+          # copy the sql script to create tables
+          - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    web:
+        build: 
+          context: ./QH
+        command: npm install
+        command: npm start
+        ports:
+          - "3000:3000"
+          - "9998:9998"
+        depends_on:
+          - db
+        restart: on-failure
+        environment:
+          CONNECTION_URL: postgres://postgres:postgres@progetto_db_1:5432/postgres
+          PORT: 3000
+          MAP_KEY: AIzaSyDLb7N0VxFe6kSvymsd6yFUIX7GCxJxZRk
+          MAIL_KEY: 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
+          FACEBOOK_CLIENTID: 3497134420512231
+          FACEBOOK_CLIENTSECRET: 0bb4a56ff338a7297a8435c0cb04e5ed
+          FACEBOOK_CALLBACKURL: http://localhost:3000/user/auth/facebook/callback
+          GOOGLE_CLIENTID: 27710775729-j9ivnahb2828ch0ao8ell40r12jr69i2.apps.googleusercontent.com
+          GOOGLE_CLIENTSECRET: FTAsu-u5-Y_q-WGh5qNIp3RH
+          GOOGLE_CALLBACKURL: http://localhost:3000/user/google/callback
