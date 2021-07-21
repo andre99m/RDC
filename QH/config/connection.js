@@ -1,3 +1,3 @@
 var { Sequelize } = require('sequelize');
-const sequelize = new Sequelize("postgres://axloyvny:lSE8qgwtpVmu2yBV03t_Vc7MHqfaj2bh@kashin.db.elephantsql.com/axloyvny")
+const sequelize = new Sequelize(process.env.CONNECTION_URL)
 module.exports = sequelize;
