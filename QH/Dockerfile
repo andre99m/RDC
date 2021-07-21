@@ -13,4 +13,5 @@ RUN npm install
 # copy the generated modules and all other files to the container
 COPY . .
 EXPOSE 3000
-RUN npm start
+EXPOSE 9998
+CMD ["npm" , "start"]

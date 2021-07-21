@@ -24,7 +24,7 @@ services:
           - db
         restart: on-failure
         environment:
-          CONNECTION_URL: postgres://postgres:postgres@progetto_db_1:5432/postgres
+          CONNECTION_URL: postgres://postgres:postgres@rdc-main_db_1:5432/postgres
           PORT: 3000
           MAP_KEY: AIzaSyDLb7N0VxFe6kSvymsd6yFUIX7GCxJxZRk
           MAIL_KEY: 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

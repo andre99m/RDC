@@ -29,16 +29,53 @@ const { measureMemory } = require('vm');
 const wss = new WebSocket.Server({ port: 9998 });
 
 // var active_connection = null;
+var array=[];
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
     var mex=message.split("|")[0];
     var from=message.split("|")[1];
-    Help.create({from: from, message: mex}).then(result=>{
-      ws.send('Grazie per la segnalazione '+from+', verrai conttattato per email al più presto da uno dei nostri specialisti!');
+    var to=message.split("|")[2];
+
+    if(mex=="chiudiCOOON"){
+      for(var i=0; i<array.length; i++){
+        if(array[i].socket==ws){
+          array.splice(i);
+        }
+      }
+      console.log(array);
+    }
+    else{
+
+    var vero=false;
+    for(var i=0; i<array.length; i++){
+      if(array[i].from==from){
+        array[i]={socket: ws, from: from, to: to}
+        vero=true;
+      }
+    }
+    if(vero==false)array.push({socket: ws, from: from, to: to});
+    console.log(array);
+    var online=false;
+    for(var i=0; i<array.length; i++){
+      if(array[i].from==to){
+        array[i].socket.send(mex+"|"+from);
+        online=true;
+    }
+  }
+  if(online==false){
+    console.log("\n Ecco il to: "+to);
+    Help.create({
+      from: from, 
+      message: mex, 
+      to: to
+    });
+  }
+  ws.send('Messaggio inoltrato a '+to);
       console.log("sent");
-    })
+
+}
   });
   //active_connection = ws;
   
@@ -64,7 +101,7 @@ app.use(session({
   resave: false, 
   saveUninitialized: false,
   store: new PgStore({
-    conString: process.env.CONNECTION_URL,
+    conString: "postgres://axloyvny:lSE8qgwtpVmu2yBV03t_Vc7MHqfaj2bh@kashin.db.elephantsql.com/axloyvny",
     tableName: 'ussessions'
   }),
   cookie: {maxAge: 180 * 60 * 1000}

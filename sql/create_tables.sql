@@ -46,6 +46,7 @@ CREATE TABLE orders(
 CREATE TABLE messages(
     id serial NOT NULL,
     "from" character varying,
+    "to" character varying,
     message character varying,
     "createdAt" timestamp without time zone,
     "updatedAt" timestamp without time zone,

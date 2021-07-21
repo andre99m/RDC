@@ -190,14 +190,15 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
                     if (orders[j].stato == "incoda") incoda += 1;
                     if (orders[j].stato == "completato") completate += 1;
                 }
-                Message.findAll({where: {from: req.user.dataValues.email}, order: [['createdAt', 'DESC']] }).then(result=>{
+                Message.findAll({where: {to: req.user.dataValues.email}, order: [['createdAt', 'DESC']] }).then(result=>{
                     
                     var messages=[];
                     for (var j = 0; j < result.length; j++) {
                         messages.push({
                             messaggio: result[j].dataValues.message,
                             data: result[j].dataValues.createdAt,
-                            from: result[j].dataValues.from
+                            from: result[j].dataValues.from,
+                            to: result[j].dataValues.to
                         });
                     }
                     console.log(messages);
@@ -257,14 +258,15 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
                     if (orders[j].stato == "completato") completate += 1;
                     if (orders[j].stato == "cancellata") rifiutate += 1;
                 }
-                Message.findAll({where: {from: req.user.dataValues.email}, order: [['createdAt', 'DESC']] }).then(result=>{
+                Message.findAll({where: {to: req.user.dataValues.email}, order: [['createdAt', 'DESC']] }).then(result=>{
                     console.log(result);
                     var messages=[];
                     for (var j = 0; j < result.length; j++) {
                         messages.push({
                             messaggio: result[j].dataValues.message,
                             data: result[j].dataValues.createdAt,
-                            from: result[j].dataValues.from
+                            from: result[j].dataValues.from,
+                            to: result[j].dataValues.to
                         });
                     }
                     res.render('user/profile_assistito',

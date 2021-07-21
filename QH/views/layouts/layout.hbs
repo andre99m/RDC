@@ -38,16 +38,17 @@
                ws.onopen = function()
                {
                   // Web Socket is connected, send data using send()
-                  ws.send((document.getElementById("messaggio").value)+"|"+(document.getElementById("person").value));
+                  ws.send((document.getElementById("messaggio").value)+"|"+(document.getElementById("person").value)+"|"+(document.getElementById("mexper").value));
                   document.getElementById("messaggio").value="";
                   
                };
 
                ws.onmessage = function (evt)
                {
-                  var received_msg = evt.data;
-                  
-                  alert(received_msg);
+                  var mex=evt.data.split("|")[0];
+                  var from=evt.data.split("|")[1];
+                  if(from==null)from="QuarantineHelp"
+                  alert("Nuovo messaggio da "+from+": "+mex);
                   
                };
 
@@ -57,6 +58,7 @@
                };
 
                window.onbeforeunload = function(event) {
+                 ws.send("chiudiCOOON"+"|"+(document.getElementById("person").value)+"|"+(document.getElementById("mexper").value));
                   socket.close();
                };
             }
@@ -138,7 +140,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Assistenza per {{email}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Messaggio di {{email}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -148,7 +150,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-        <a href="javascript:WebSocketTest()" class="btn btn-primary">Invia segnalazione</a>
+        <a href="javascript:WebSocketTest()" class="btn btn-primary">Invia messaggio</a>
       </div>
     </div>
   </div>
