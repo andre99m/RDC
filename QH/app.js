@@ -101,7 +101,7 @@ app.use(session({
   resave: false, 
   saveUninitialized: false,
   store: new PgStore({
-    conString: "postgres://axloyvny:lSE8qgwtpVmu2yBV03t_Vc7MHqfaj2bh@kashin.db.elephantsql.com/axloyvny",
+    conString: process.env.CONNECTION_URL,
     tableName: 'ussessions'
   }),
   cookie: {maxAge: 180 * 60 * 1000}
