@@ -38,7 +38,7 @@ Il progetto nasce in un contensto di pandemia per aiutare la gente bisognosa, ch
 
 ### Protocolli asincroni: 
 
-- Websocket per messaggisatica di assistenza con risposta statica e/o eventuale risposta via email
+- Websocket per messaggisatica tra utenti in modalità online o offline
 
 ## Istruzioni installazione:
 
